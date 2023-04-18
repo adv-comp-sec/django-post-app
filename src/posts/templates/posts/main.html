@@ -8,5 +8,7 @@ posts
 {% endblock title %}
 
 {% block content %}
-hello world
+{% for obj in qs %}
+    {{obj.title}} - {{obj.body}} <br>
+{% endfor %}
 {% endblock content %}
