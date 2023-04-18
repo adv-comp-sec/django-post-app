@@ -25,7 +25,7 @@ const csrftoken = getCookie('csrftoken');
 
 // function to handle the click button for like/unlike
 const likeUnlikePosts = () => {
-    const likeUnlikeForms = [...document.getElementById('like-unlike-forms')]
+    const likeUnlikeForms = [...document.getElementsByClassName('like-unlike-forms')]
     likeUnlikeForms.forEach(form => form.addEventListener('submit', e => {
         e.preventDefault();
         const clickedId = e.target.getAttribute('data-form-id');
@@ -33,13 +33,14 @@ const likeUnlikePosts = () => {
 
         $.ajax({
             type: 'POST',
-            url: '',
+            url: '/like-unlike/',
             data: {
                 'csrfmiddlewaretoken': csrftoken,
                 'pk': clickedId,
             },
             success: function(response) {
                 console.log(response);
+                clickedBtn.textContent = response.liked ? `Unlike (${response.count})`: `Like (${response.count})`
             },
             error: function(error) {
                 console.log(error);
@@ -77,8 +78,7 @@ const getData = () => {
                                         <a href="#" class="btn btn-primary">Details</a>
                                     </div>
                                     <div class="col-2">
-                                        <form class="like-unlike-forms" data-form-id="${element.id}"> <!-- get element id to handle the likes of each post -->  
-                                            
+                                        <form class="like-unlike-forms" data-form-id="${element.id}"> <!-- get element id to handle the likes of each post -->   
                                             <button href="#" class="btn btn-primary" id="like-unlike-${element.id}">${element.liked ? `Unlike (${element.count})`: `Like (${element.count})`}</button> <!-- show unlike if the post already liked -->
                                         </form>
                                     </div>
@@ -87,6 +87,7 @@ const getData = () => {
                         </div>
                     `
                 });
+                likeUnlikePosts();
             }, 100)
             console.log(response.size);
             if (response.size === 0) {
