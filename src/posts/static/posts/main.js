@@ -2,7 +2,8 @@ console.log('hello world');
 
 const postsBox = document.getElementById('posts-box');  // div to display the posts
 const spinnerBox = document.getElementById('spinner-box'); // get spinner div
-const loadBtn = document.getElementById('load-btn')
+const loadBtn = document.getElementById('load-btn');
+const endBox = document.getElementById('end-box');
 
 let visible = 3;    // initial number of posts to display
 
@@ -41,7 +42,15 @@ const getData = () => {
                         </div>
                     `
                 });
-            }, 100)      
+            }, 100)
+            console.log(response.size);
+            if (response.size === 0) {
+                endBox.textContent = 'No posts added yet...';
+            }
+            else if (response.size <= visible) {
+                loadBtn.classList.add('not-visible');
+                endBox.textContent = 'No more posts to load';
+            }      
         },
         error: function(error) {
             console.log(error);
