@@ -31,6 +31,19 @@ def post_list_and_create(request):
 
     return render(request, 'posts/main.html', context)  # return the request to template
 
+# shows the post detail
+def post_detail(request, pk):
+    obj = Post.objects.get(pk=pk)
+    form = PostForm()
+
+    context = {
+        'obj': obj,
+        'form': form,
+    }
+
+    return render(request, 'posts/detail.html', context)
+
+
 # return a JSON response
 # handles ajax call
 def load_post_data_view(request, num_posts):

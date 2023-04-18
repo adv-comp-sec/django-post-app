@@ -10,6 +10,8 @@ const title = document.getElementById('id_title');
 const body = document.getElementById('id_body');
 const csrf = document.getElementsByName('csrfmiddlewaretoken');
 
+const url = window.location.href;
+
 const alertBox = document.getElementById('alert-box');
 console.log('csrf', csrf[0].value);
 
@@ -83,7 +85,7 @@ const getData = () => {
                             <div class="card-footer">
                                 <div class="row">
                                     <div class="col-1">
-                                        <a href="#" class="btn btn-primary">Details</a>
+                                        <a href="${url}${element.id}" class="btn btn-primary">Details</a>
                                     </div>
                                     <div class="col-2">
                                         <form class="like-unlike-forms" data-form-id="${element.id}"> <!-- get element id to handle the likes of each post -->   
@@ -121,6 +123,7 @@ loadBtn.addEventListener('click', ()=>{
 })
 
 
+// function to handle saving a new post
 postForm.addEventListener('submit', e=> {
     e.preventDefault()
 
