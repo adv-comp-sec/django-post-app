@@ -19,3 +19,7 @@ class Post(models.Model):
     @property
     def like_count(self):
         return self.liked.all().count()
+    
+    # class to organize from newst to oldest
+    class Meta:
+        ordering = ("-created",)
