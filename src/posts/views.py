@@ -5,4 +5,4 @@ from .models import Post
 
 def post_list_and_create(request):
     qs = Post.objects.all()         # get all posts from database
-    return render(request, 'posts/main.html', {'qs':qs})   # return the request to template
+    return render(request, 'posts/main.html', {'qs':qs})  # return the request to template
