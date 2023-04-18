@@ -1,12 +1,29 @@
 from django.shortcuts import render
 from .models import Post
 from django.http import JsonResponse
+from .forms import PostForm
+from profiles.models import Profile
 
 # Create your views here.
+# is_ajax() is deprecated
+# use if request.headers.get('x-requested-with') == 'XMLHttpRequest':
 
 def post_list_and_create(request):
-    qs = Post.objects.all()         # get all posts from database
-    return render(request, 'posts/main.html', {'qs':qs})  # return the request to template
+    form = PostForm(request.POST or None)
+    # qs = Post.objects.all()         # get all posts from database
+
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if form.is_valid():
+            author = Profile.objects.get(user=request.user)     # get user before save post
+            instance = form.save(commit=False)
+            instance.author = author
+            instance.save()             # salve to the database
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'posts/main.html', context)  # return the request to template
 
 # return a JSON response
 def load_post_data_view(request, num_posts):
