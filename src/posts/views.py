@@ -67,6 +67,20 @@ def load_post_data_view(request, num_posts):
             data.append(item)
     return JsonResponse({'data': data[lower:upper], 'size': size})
 
+# handle view for post detail
+def post_detail_data_view(request, pk):
+    obj = Post.objects.get(pk=pk)
+    data = {
+        'id': obj.id,
+        'title': obj.title,
+        'body': obj.body,
+        'author': obj.author.user.username,
+        'logged_in': request.user.username,
+    }
+
+    return JsonResponse({'data': data})
+
+
 # handles ajax call
 def like_unlike_view(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
