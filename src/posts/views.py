@@ -9,4 +9,4 @@ def post_list_and_create(request):
     return render(request, 'posts/main.html', {'qs':qs})  # return the request to template
 
 def hello_world_view(request):
-    return JsonResponse({'text'})
+    return JsonResponse({'text': 'hello world'})
