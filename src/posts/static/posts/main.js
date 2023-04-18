@@ -23,6 +23,31 @@ const getCookie = (name) => {
 }
 const csrftoken = getCookie('csrftoken');
 
+// function to handle the click button for like/unlike
+const likeUnlikePosts = () => {
+    const likeUnlikeForms = [...document.getElementById('like-unlike-forms')]
+    likeUnlikeForms.forEach(form => form.addEventListener('submit', e => {
+        e.preventDefault();
+        const clickedId = e.target.getAttribute('data-form-id');
+        const clickedBtn = document.getElementById(`like-unlike-${clickedId}`);
+
+        $.ajax({
+            type: 'POST',
+            url: '',
+            data: {
+                'csrfmiddlewaretoken': csrftoken,
+                'pk': clickedId,
+            },
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(error) {
+                console.log(error);
+            },
+        })
+    }))
+}
+
 let visible = 3;    // initial number of posts to display
 
 // getData will be triggered by a button clicked
@@ -54,7 +79,7 @@ const getData = () => {
                                     <div class="col-2">
                                         <form class="like-unlike-forms" data-form-id="${element.id}"> <!-- get element id to handle the likes of each post -->  
                                             
-                                            <button href="#" class="btn btn-primary">${element.liked ? `Unlike (${element.count})`: `Like (${element.count})`}</button> <!-- show unlike if the post already liked -->
+                                            <button href="#" class="btn btn-primary" id="like-unlike-${element.id}">${element.liked ? `Unlike (${element.count})`: `Like (${element.count})`}</button> <!-- show unlike if the post already liked -->
                                         </form>
                                     </div>
                                 </div>
