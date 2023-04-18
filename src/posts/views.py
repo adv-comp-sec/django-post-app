@@ -26,26 +26,29 @@ def post_list_and_create(request):
     return render(request, 'posts/main.html', context)  # return the request to template
 
 # return a JSON response
+# handles ajax call
 def load_post_data_view(request, num_posts):
-    visible = 3     # initial number of posts visible
-    upper = num_posts
-    lower = upper - visible     # number of posts inivisble
-    size = Post.objects.all().count()   # count total number of posts
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        visible = 3     # initial number of posts visible
+        upper = num_posts
+        lower = upper - visible     # number of posts inivisble
+        size = Post.objects.all().count()   # count total number of posts
 
-    qs = Post.objects.all()
-    data = []                   # create a list to save the values of each object
-    for obj in qs:
-        item = {
-            'id': obj.id,
-            'title': obj.title,
-            'body': obj.body,
-            'liked': True if request.user in obj.liked.all() else False,
-            'count': obj.like_count,
-            'author': obj.author.user.username
-        }
-        data.append(item)
+        qs = Post.objects.all()
+        data = []                   # create a list to save the values of each object
+        for obj in qs:
+            item = {
+                'id': obj.id,
+                'title': obj.title,
+                'body': obj.body,
+                'liked': True if request.user in obj.liked.all() else False,
+                'count': obj.like_count,
+                'author': obj.author.user.username
+            }
+            data.append(item)
     return JsonResponse({'data': data[lower:upper], 'size': size})
 
+# handles ajax call
 def like_unlike_view(request):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         pk = request.POST.get('pk')

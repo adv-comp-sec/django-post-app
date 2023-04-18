@@ -5,6 +5,12 @@ const spinnerBox = document.getElementById('spinner-box'); // get spinner div
 const loadBtn = document.getElementById('load-btn');
 const endBox = document.getElementById('end-box');
 
+const postForm = document.getElementById('post-form'); // new post form
+const title = document.getElementById('id_title');
+const body = document.getElementById('id_body');
+const csrf = document.getElementsByName('csrfmiddlewaretoken')
+console.log('csrf', csrf[0].value)
+
 // Get CSRF token
 const getCookie = (name) => {
     let cookieValue = null;
@@ -105,10 +111,31 @@ const getData = () => {
     })
 }
 
+// button to load more posts
 loadBtn.addEventListener('click', ()=>{
     spinnerBox.classList.remove('not-visible');
     visible += 3;
     getData();
 })
 
+
+postForm.addEventListener('submit', e=> {
+    e.preventDefault()
+
+    $.ajax({
+        type: 'POST',
+        url: '',
+        data: {
+            'csrfmiddlewaretoken': csrf[0].value,
+            'title': title.value,
+            'body': body.value
+        },
+        success: function(response) {
+            console.log(response)
+        },
+        error: function(error) {
+            console.log(error)
+        }
+    })
+})
 getData();
