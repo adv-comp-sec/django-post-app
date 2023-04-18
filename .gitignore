@@ -1,0 +1,4 @@
+Lib/
+Scripts/
+src/db.sqlite3
+*.cfg
