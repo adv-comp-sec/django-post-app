@@ -158,6 +158,7 @@ postForm.addEventListener('submit', e=> {
             likeUnlikePosts();
             $('#addPostModal').modal('hide') // hide the modal after saving post
             handleAlerst('success', 'New post added!')  // display alert
+            postForm.reset()    // clear form after saving the post
         },
         error: function(error) {
             console.log(error)
