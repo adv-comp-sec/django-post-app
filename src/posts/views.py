@@ -3,6 +3,7 @@ from .models import Post, Photo
 from django.http import JsonResponse, HttpResponse
 from .forms import PostForm
 from profiles.models import Profile
+from .utils import action_permission
 
 # Create your views here.
 # is_ajax() is deprecated
@@ -109,11 +110,13 @@ def update_post(request, pk):
         })
 
 # view for delete post
+@action_permission
 def delete_post(request, pk):
     obj = Post.objects.get(pk=pk)
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         obj.delete()
         return JsonResponse({})
+
     
 # view for uploading image
 def image_upload_view(request):
