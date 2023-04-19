@@ -23,9 +23,9 @@ const bodyInput = document.getElementById('id_body');
 const csrf = document.getElementsByName('csrfmiddlewaretoken');
 
 // back button
-backBtn.addEventListener('click', () => {
-    history.back()
-})
+// backBtn.addEventListener('click', () => {
+//     history.back()
+// })
 
 // ajax call 
 $.ajax({
@@ -89,7 +89,6 @@ updateForm.addEventListener('submit', e=>{
         success: function(response){
             console.log(response)
             handleAlerts('success', 'post has been updated')
-            //handleAlerts('success', 'post has been updated')
             title.textContent = response.title;
             body.textContent = response.body;
         },
