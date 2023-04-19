@@ -13,7 +13,12 @@ const csrf = document.getElementsByName('csrfmiddlewaretoken');
 const url = window.location.href;
 
 const alertBox = document.getElementById('alert-box');
-console.log('csrf', csrf[0].value);
+
+const deleted = localStorage.getItem('title')
+if (deleted) {
+    handleAlerts('danger', `deleted "${deleted}"`)
+    localStorage.clear()
+}
 
 // Get CSRF token
 const getCookie = (name) => {
@@ -160,13 +165,13 @@ postForm.addEventListener('submit', e=> {
             `);
             likeUnlikePosts();
             $('#addPostModal').modal('hide') // hide the modal after saving post
-            handleAlerst('success', 'New post added!')  // display alert
+            handleAlerts('success', 'New post added!')  // display alert
             postForm.reset()    // clear form after saving the post
         },
         error: function(error) {
             console.log(error)
             $('#addPostModal').modal('hide') // hide the modal after saving post
-            handleAlerst('danger', 'Ops... something went wrong!') // display alert
+            handleAlerts('danger', 'Ops... something went wrong!') // display alert
         }
     })
 })
