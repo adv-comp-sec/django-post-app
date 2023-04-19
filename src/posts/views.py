@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import Post, Photo
 from django.http import JsonResponse, HttpResponse
 from .forms import PostForm
@@ -32,6 +32,7 @@ def post_list_and_create(request):
     }
 
     return render(request, 'posts/main.html', context)  # return the request to template
+
 
 # shows the post detail
 @login_required
@@ -69,7 +70,8 @@ def load_post_data_view(request, num_posts):
                 'author': obj.author.user.username
             }
             data.append(item)
-    return JsonResponse({'data': data[lower:upper], 'size': size})
+        return JsonResponse({'data': data[lower:upper], 'size': size})
+    return redirect('posts:main-board')
 
 # handle view for post detail
 @login_required
@@ -99,6 +101,7 @@ def like_unlike_view(request):
             liked = True
             obj.liked.add(request.user)
         return JsonResponse({'liked': liked, 'count': obj.like_count})
+    return redirect('posts:main-board')
 
 # view for update post
 @login_required
@@ -115,6 +118,7 @@ def update_post(request, pk):
             'title': new_title,
             'body': new_body,
         })
+    return redirect('posts:main-board')
 
 # view for delete post
 @login_required
@@ -124,6 +128,7 @@ def delete_post(request, pk):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         obj.delete()
         return JsonResponse({})
+    return redirect('posts:main-board')
 
     
 # view for uploading image
