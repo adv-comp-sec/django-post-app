@@ -1,13 +1,15 @@
 console.log('hello world detail')
 
 
-// variables
+// constants
 const postBox = document.getElementById('post-box');
 const backBtn = document.getElementById('back-btn');
 const updateBtn = document.getElementById('update-btn');
 const deleteBtn = document.getElementById('delete-btn');
 const url = window.location.href + "data/"
 const spinnerBox = document.getElementById('spinner-box')
+const titleInput = document.getElementById('id_title');
+const bodyInput = document.getElementById('id_body');
 
 // back button
 backBtn.addEventListener('click', () => {
@@ -44,6 +46,10 @@ $.ajax({
 
         postBox.appendChild(titleEl);
         postBox.appendChild(bodyEl);
+
+        // get title and body and display it inside the modal for update
+        titleInput.value = data.title;
+        bodyInput.value = data.body;
 
         // hide spinner
         spinnerBox.classList.add('not-visible');
